@@ -1,0 +1,34 @@
+<resources>
+    <string name="app_name">TMDB</string>
+    <string name="url_image">https://image.tmdb.org/t/p/w500</string>
+
+
+    <string name="nav_nowplaying_movies">Now Playing Movies</string>
+    <string name="nav_movies">Movies</string>
+    <string name="nav_genres">Genres</string>
+
+    <string name="url_nav_header_bg">http://archive.vltramarine.ru/blog/wp-content/uploads/2011/10/behr_intro.jpg</string>
+    <string name="url_nav_profile_img">https://lh3.googleusercontent.com/GWVPZ_L5nXK5hodwk6v3MVsrYUDRWtY6f1G0rDK_Tq6kJj4zcFHvyTgI5snZaH7NfSM</string>
+    <string name="text_name_nav_header">Guest</string>
+    <string name="openDrawer">Open Drawer</string>
+    <string name="closeDrawer">Close Drawer</string>
+    <string name="error">Error</string>
+    <string name="popular">Popular</string>
+    <string name="upcoming">Upcoming</string>
+    <string name="desription">Descritpion</string>
+    <string name="actors">Actors</string>
+    <string name="runtime">runtime</string>
+    <string name="title_movie">Title Movie</string>
+    <string name="date">Date</string>
+    <string name="title_genre">Title Genre</string>
+    <string name="no_genre">No Genre</string>
+    <string name="actor_name">Actor Name</string>
+    <string name="actor_character">Actor Character</string>
+
+    <string-array name="nav_item_activity_titles">
+        <item>Now Playing Movies</item>
+        <item>Movies</item>
+        <item>Genres</item>
+    </string-array>
+
+</resources>

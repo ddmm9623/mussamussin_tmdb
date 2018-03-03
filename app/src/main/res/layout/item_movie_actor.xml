@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="128dp"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_marginRight="2dp">
+
+    <ImageView
+        android:id="@+id/movie_actor_imageview"
+        android:layout_width="match_parent"
+        android:layout_height="128dp"
+        android:background="@color/colorBg"/>
+
+    <TextView
+        android:id="@+id/movie_actor_textview_character"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="4dp"
+        android:paddingRight="4dp"
+        android:paddingTop="4dp"
+        android:paddingBottom="2dp"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:textSize="12sp"
+        android:textColor="@color/colorWhite"
+        android:background="@color/colorBlack"
+        android:textStyle="bold"
+        android:text="@string/actor_character"/>
+
+    <TextView
+        android:id="@+id/movie_actor_textview_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="4dp"
+        android:paddingRight="4dp"
+        android:paddingBottom="4dp"
+        android:textColor="@color/colorWhite"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:textSize="10sp"
+        android:background="@color/colorBlack"
+        android:text="@string/actor_name"/>
+</LinearLayout>
