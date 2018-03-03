@@ -19,12 +19,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.tmdb.dante666lcf.tmdb.fragments.GenresFragment;
 import com.tmdb.dante666lcf.tmdb.fragments.MoviesFragment;
 import com.tmdb.dante666lcf.tmdb.fragments.NowPlayingMoviesFragment;
 import com.tmdb.dante666lcf.tmdb.models.Movies;
-import com.tmdb.dante666lcf.tmdb.retrofit.APIServices;
 
 import java.util.ArrayList;
 
@@ -54,8 +52,6 @@ public class MainActivity extends AppCompatActivity {
     private boolean shouldLoadHomeFragOnBackPress = true;
     private Handler mHandler;
 
-    ActionBar actionBar;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,8 +61,6 @@ public class MainActivity extends AppCompatActivity {
         urlNavProfileImg = getString(R.string.url_nav_profile_img);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        actionBar = getSupportActionBar();
 
         mHandler = new Handler();
 
@@ -191,7 +185,7 @@ public class MainActivity extends AppCompatActivity {
                 FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
                 fragmentTransaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out);
                 fragmentTransaction.replace(R.id.frame_layout, fragment, CURRENT_TAG);
-                fragmentTransaction.commitAllowingStateLoss();
+                fragmentTransaction.commit();
             }
         };
 
@@ -206,14 +200,11 @@ public class MainActivity extends AppCompatActivity {
 
         switch (navItemIndex) {
             case 0:
-                NowPlayingMoviesFragment nowPlayingMoviesFragment = new NowPlayingMoviesFragment();
-                return nowPlayingMoviesFragment;
+                return new NowPlayingMoviesFragment();
             case 1:
-                MoviesFragment moviesFragment = new MoviesFragment();
-                return moviesFragment;
+                return new MoviesFragment();
             case 2:
-                GenresFragment genresFragment = new GenresFragment();
-                return genresFragment;
+                return new GenresFragment();
 
             default:
                 return new NowPlayingMoviesFragment();
@@ -252,11 +243,5 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         super.onBackPressed();
-    }
-
-    @Override
-    protected void onDestroy() {
-//        realm.close();
-        super.onDestroy();
     }
 }

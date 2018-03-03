@@ -31,6 +31,7 @@
                 android:id="@+id/movie_page_imageview"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
+                android:scaleType="centerCrop"
                 android:background="@color/colorBg"/>
 
             <LinearLayout

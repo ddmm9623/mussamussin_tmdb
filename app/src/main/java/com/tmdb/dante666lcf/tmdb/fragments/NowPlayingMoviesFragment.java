@@ -59,7 +59,7 @@ public class NowPlayingMoviesFragment extends Fragment {
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view_new_playing_movie);
@@ -82,8 +82,6 @@ public class NowPlayingMoviesFragment extends Fragment {
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(moviesAdapter);
-
-
 
         createScrollListener();
     }

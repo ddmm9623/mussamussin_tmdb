@@ -3,6 +3,7 @@ package com.tmdb.dante666lcf.tmdb.adapters;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.module.AppGlideModule;
+import com.bumptech.glide.annotation.GlideModule;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.tmdb.dante666lcf.tmdb.App;
 import com.tmdb.dante666lcf.tmdb.MoviePageActivity;
@@ -32,6 +35,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MyViewHold
 
     private List<Movies> moviesList;
     private List<Genres> genresList;
+    private AppGlideModule AppGlide;
 
     public MoviesAdapter(List<Movies> moviesList, List<Genres> genresList) {
         this.moviesList = moviesList;
@@ -60,11 +64,13 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MyViewHold
             Glide.with(App.getContext())
                     .load(App.getContext().getString(R.string.url_image) + moviePosition.getPoster_path())
                     .into(holder.mMovieImageView);
+
         } else if (moviePosition.getBackdropPath() != null) {
             Glide.with(App.getContext())
                     .load(App.getContext().getString(R.string.url_image) + moviePosition.getBackdropPath())
                     .into(holder.mMovieImageView);
         } else {
+
             Glide.with(App.getContext())
                     .load("http://www.valuewalk.com/wp-content/uploads/2017/04/no-thumbnail.png")
                     .into(holder.mMovieImageView);
