@@ -5,6 +5,7 @@ import com.tmdb.dante666lcf.tmdb.models.GenresResponse;
 import com.tmdb.dante666lcf.tmdb.models.MoviesGenreResponse;
 import com.tmdb.dante666lcf.tmdb.models.MoviesResponse;
 import com.tmdb.dante666lcf.tmdb.models.PageMovieModel;
+import com.tmdb.dante666lcf.tmdb.models.SimilarMoviesResponse;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -44,5 +45,13 @@ public interface TmdbApi {
     Call<ActorsResponse> getMovieActors (@Path("movie_id") int movieId,
                                          @Query("api_key") String api_key);
 
+    @GET("movie/{movie_id}/similar")
+    Call<SimilarMoviesResponse> getSimilarMovies (@Path("movie_id") int movieId,
+                                                  @Query("api_key") String api_key);
+
+    @GET("search/movie")
+    Call<MoviesGenreResponse> getSearchMovie (@Query("api_key") String api_key,
+                                         @Query("query") String searchKey,
+                                         @Query("page") int page);
 
 }

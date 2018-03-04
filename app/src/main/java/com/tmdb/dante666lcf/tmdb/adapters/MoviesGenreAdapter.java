@@ -113,7 +113,7 @@ public class MoviesGenreAdapter extends RecyclerView.Adapter<MoviesGenreAdapter.
         return moviesList.size();
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView mMovieTitle, mMovieGenre, mMovieRate, mReleaseDate;
         public ImageView mMovieImageView;
 
@@ -124,14 +124,6 @@ public class MoviesGenreAdapter extends RecyclerView.Adapter<MoviesGenreAdapter.
             mMovieRate = (TextView) itemView.findViewById(R.id.item_movie_rating);
             mMovieImageView = (ImageView) itemView.findViewById(R.id.item_movie_imageview);
             mReleaseDate = (TextView) itemView.findViewById(R.id.item_movie_release_date);
-            itemView.setOnClickListener(this);
-
-        }
-
-        @Override
-        public void onClick(View view) {
-
-            Log.d(TAG, "onClick " + getAdapterPosition() + "LOL");
         }
     }
 }

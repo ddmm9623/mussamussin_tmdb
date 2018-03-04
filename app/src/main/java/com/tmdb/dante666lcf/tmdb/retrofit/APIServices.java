@@ -15,7 +15,9 @@ public class APIServices extends IntentService {
     private static final String EXTRA_PAGE = "com.tmdb.dante666lcf.tmdb.extra.EXTRA_PAGE";
     private static final String EXTRA_MOVIE_PAGE_ID = "com.tmdb.dante666lcf.tmdb.extra.EXTRA_MOVIE_PAGE_ID";
     private static final String EXTRA_MOVIE_ID_FOR_ACTORS = "com.tmdb.dante666lcf.tmdb.extra.EXTRA_MOVIE_ID_FOR_ACTORS";
+    private static final String EXTRA_MOVIE_ID_FOR_SIMILAR = "com.tmdb.dante666lcf.tmdb.extra.EXTRA_MOVIE_ID_FOR_SIMILAR";
     private static final String EXTRA_GENRE_ID = "com.tmdb.dante666lcf.tmdb.extra.EXTRA_GENRE_ID";
+    private static final String EXTRA_SEARCH_KEY = "com.tmdb.dante666lcf.tmdb.extra.EXTRA_SEARCH_KEY";
     private static final String ACTION_GET_NOW_PLAYING_MOVIES = "com.tmdb.dante666lcf.tmdb.action.ACTION_GET_NOW_PLAYING_MOVIES";
     private static final String ACTION_GET_MOVIES_GENRES = "com.tmdb.dante666lcf.tmdb.action.ACTION_GET_MOVIES_GENRES";
     private static final String ACTION_GET_POPULAR_MOVIES = "com.tmdb.dante666lcf.tmdb.action.ACTION_GET_POPULAR_MOVIES";
@@ -23,6 +25,8 @@ public class APIServices extends IntentService {
     private static final String ACTION_GET_MOVIE_PAGE_ID = "com.tmdb.dante666lcf.tmdb.action.ACTION_GET_MOVIE_PAGE_ID";
     private static final String ACTION_GET_GENRE_ID = "com.tmdb.dante666lcf.tmdb.action.ACTION_GET_GENRE_ID";
     private static final String ACTION_GET_MOVIE_ACTORS = "com.tmdb.dante666lcf.tmdb.action.ACTION_GET_MOVIE_ACTORS";
+    private static final String ACTION_GET_SIMILAR_MOVIES = "com.tmdb.dante666lcf.tmdb.action.ACTION_GET_SIMILAR_MOVIES";
+    private static final String ACTION_GET_SEARCH_MOVIES = "com.tmdb.dante666lcf.tmdb.action.ACTION_GET_SEARCH_MOVIES";
 
 
     public APIServices() {
@@ -78,6 +82,21 @@ public class APIServices extends IntentService {
         App.getContext().startService(i);
     }
 
+    public static void getSimilarMovies(int movieId) {
+        Intent i = new Intent(App.getContext(), APIServices.class);
+        i.setAction(ACTION_GET_SIMILAR_MOVIES);
+        i.putExtra(EXTRA_MOVIE_ID_FOR_SIMILAR, movieId);
+        App.getContext().startService(i);
+    }
+
+    public static void getSearchMovie(String searchKey, int page) {
+        Intent i = new Intent(App.getContext(), APIServices.class);
+        i.setAction(ACTION_GET_SEARCH_MOVIES);
+        i.putExtra(EXTRA_SEARCH_KEY, searchKey);
+        i.putExtra(EXTRA_PAGE, page);
+        App.getContext().startService(i);
+    }
+
 
     @Override
     protected void onHandleIntent(Intent intent) {
@@ -107,6 +126,13 @@ public class APIServices extends IntentService {
             } else if (action.equals(ACTION_GET_MOVIE_ACTORS)){
                 int movieId = intent.getIntExtra(EXTRA_MOVIE_ID_FOR_ACTORS, 1);
                 TmdbRestClient.getInstance().getMovieActors(movieId);
+            } else if(action.equals(ACTION_GET_SIMILAR_MOVIES)) {
+                int movieId = intent.getIntExtra(EXTRA_MOVIE_ID_FOR_SIMILAR, 1);
+                TmdbRestClient.getInstance().getSimilarMovies(movieId);
+            } else if(action.equals(ACTION_GET_SEARCH_MOVIES)) {
+                String searchkey = intent.getStringExtra(EXTRA_SEARCH_KEY);
+                int page = intent.getIntExtra(EXTRA_PAGE, 1);
+                TmdbRestClient.getInstance().getSearchMovie(searchkey, page);
             }
         }
     }

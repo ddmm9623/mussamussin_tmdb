@@ -24,4 +24,11 @@ public class BroadcastIntents {
     public static final String MOVIE_ACTORS_REQUEST_OK = "com.tmdb.movie_actors_request_ok";
     public static final String MOVIE_ACTORS_REQUEST_FAIL = "com.tmdb.movie_actors_request_fail";
 
+    public static final String SIMILAR_MOVIES_REQUEST_OK = "com.tmdb.similar_movies_request_ok";
+    public static final String SIMILAR_MOVIES_REQUEST_FAIL = "com.tmdb.similar_movies_request_fail";
+
+    public static final String SEARCH_MOVIE_REQUEST_OK = "com.tmdb.search_movie_request_ok";
+    public static final String SEARCH_MOVIE_REQUEST_FAIL = "com.tmdb.search_movie_request_fail";
+
+
 }

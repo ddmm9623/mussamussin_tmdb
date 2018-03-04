@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:src="@color/colorBg"
-        android:scaleType="matrix"/>
+        android:scaleType="centerCrop"/>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -76,7 +76,7 @@
 
     <TextView
         android:id="@+id/item_movie_release_date"
-        android:layout_width="104dp"
+        android:layout_width="112dp"
         android:layout_height="wrap_content"
         android:text="@string/date"
         android:gravity="center"

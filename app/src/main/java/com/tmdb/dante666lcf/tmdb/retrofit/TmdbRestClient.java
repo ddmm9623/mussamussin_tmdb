@@ -18,6 +18,8 @@ import com.tmdb.dante666lcf.tmdb.models.MoviesGenreResponse;
 import com.tmdb.dante666lcf.tmdb.models.MoviesResponse;
 import com.tmdb.dante666lcf.tmdb.models.Movies;
 import com.tmdb.dante666lcf.tmdb.models.PageMovieModel;
+import com.tmdb.dante666lcf.tmdb.models.SimilarMovies;
+import com.tmdb.dante666lcf.tmdb.models.SimilarMoviesResponse;
 import com.tmdb.dante666lcf.tmdb.serializers.MovieGenresDeserializer;
 
 import java.util.List;
@@ -268,6 +270,61 @@ public class TmdbRestClient {
 
             }
         });
+    }
+
+    public void getSimilarMovies(final int movieId) {
+
+        tmdbApi.getSimilarMovies(movieId, api_key).enqueue(new Callback<SimilarMoviesResponse>() {
+            @Override
+            public void onResponse(Call<SimilarMoviesResponse> call, Response<SimilarMoviesResponse> response) {
+
+                if(response.isSuccessful()) {
+
+                    List<SimilarMovies> similarMoviesList = response.body().getSimilarMoviesList();
+                    Realm realm = Realm.getDefaultInstance();
+                    realm.beginTransaction();
+                    realm.copyToRealmOrUpdate(similarMoviesList);
+                    realm.commitTransaction();
+                    realm.close();
+
+                    Intent intent = new Intent(BroadcastIntents.SIMILAR_MOVIES_REQUEST_OK);
+                    LocalBroadcastManager.getInstance(App.getContext()).sendBroadcast(intent);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<SimilarMoviesResponse> call, Throwable t) {
+
+            }
+        });
+    }
+
+    public void getSearchMovie(String searchKey, int page) {
+
+        tmdbApi.getSearchMovie(api_key, searchKey, page).enqueue(new Callback<MoviesGenreResponse>() {
+            @Override
+            public void onResponse(Call<MoviesGenreResponse> call, Response<MoviesGenreResponse> response) {
+
+                if (response.isSuccessful()) {
+
+                    List<MoviesGenre> searchMovie = response.body().getMoviesGenreResponse();
+                    Realm mRealm = Realm.getDefaultInstance();
+                    mRealm.beginTransaction();
+                    mRealm.copyToRealmOrUpdate(searchMovie);
+                    mRealm.commitTransaction();
+                    mRealm.close();
+
+                    Intent intent = new Intent(BroadcastIntents.SEARCH_MOVIE_REQUEST_OK);
+                    LocalBroadcastManager.getInstance(App.getContext()).sendBroadcast(intent);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<MoviesGenreResponse> call, Throwable t) {
+
+            }
+        });
+
     }
 
     public void getNowPlayingMovies(int page) {

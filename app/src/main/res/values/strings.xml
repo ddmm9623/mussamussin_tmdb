@@ -7,14 +7,14 @@
     <string name="nav_movies">Movies</string>
     <string name="nav_genres">Genres</string>
 
-    <string name="url_nav_header_bg">http://archive.vltramarine.ru/blog/wp-content/uploads/2011/10/behr_intro.jpg</string>
-    <string name="url_nav_profile_img">https://lh3.googleusercontent.com/GWVPZ_L5nXK5hodwk6v3MVsrYUDRWtY6f1G0rDK_Tq6kJj4zcFHvyTgI5snZaH7NfSM</string>
+    <string name="url_nav_header_bg">https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTg-1ETxm3KaXcaatk4i3TVnBMLvfeMPsCGk45pdhQkIIATD0JW</string>
+    <string name="url_nav_profile_img">https://img3.goodfon.ru/original/2560x1920/b/73/jim-morrison-the-doors-art.jpg</string>
     <string name="text_name_nav_header">Guest</string>
     <string name="openDrawer">Open Drawer</string>
     <string name="closeDrawer">Close Drawer</string>
     <string name="error">Error</string>
     <string name="popular">Popular</string>
-    <string name="upcoming">Upcoming</string>
+    <string name="upcoming">Upcoming</string>Enter Title Movie
     <string name="desription">Descritpion</string>
     <string name="actors">Actors</string>
     <string name="runtime">runtime</string>
@@ -24,6 +24,11 @@
     <string name="no_genre">No Genre</string>
     <string name="actor_name">Actor Name</string>
     <string name="actor_character">Actor Character</string>
+    <string name="similar_movies">Similar Movies</string>
+    <string name="no_date_released">no date released</string>
+    <string name="search_edittext">Enter movie</string>
+    <string name="search">Search</string>
+    <string name="result">Result</string>
 
     <string-array name="nav_item_activity_titles">
         <item>Now Playing Movies</item>

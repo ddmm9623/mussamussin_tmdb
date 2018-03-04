@@ -1,5 +1,6 @@
 package com.tmdb.dante666lcf.tmdb;
 
+import android.content.Intent;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -15,8 +16,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.tmdb.dante666lcf.tmdb.fragments.GenresFragment;
@@ -35,10 +39,11 @@ public class MainActivity extends AppCompatActivity {
     private NavigationView navigationView;
     private ImageView imgNavHeaderBg, imgNavProfile;
     private TextView textNameNavHeader;
-
+    private EditText mEditTextSearchKey;
     private View navHeader;
     private ArrayList<Movies> nowPlayingMovies;
     private String urlNavHeaderBg, urlNavProfileImg;
+    private Button mBtnSearch;
     private Realm realm;
 
     public static int navItemIndex = 0;
@@ -73,6 +78,8 @@ public class MainActivity extends AppCompatActivity {
         imgNavHeaderBg = (ImageView) navHeader.findViewById(R.id.img_header_bg);
         imgNavProfile = (ImageView) navHeader.findViewById(R.id.img_profile);
         textNameNavHeader = (TextView) navHeader.findViewById(R.id.nav_name_profile);
+        mEditTextSearchKey = (EditText) navHeader.findViewById(R.id.nav_edittext_search);
+        mBtnSearch = (Button) navHeader.findViewById(R.id.nav_btn_search);
         
 
         activityTitles = getResources().getStringArray(R.array.nav_item_activity_titles);
@@ -86,6 +93,17 @@ public class MainActivity extends AppCompatActivity {
             CURRENT_TAG = TAG_NOWPLAYING_MOVIES;
             loadHomeFragment();
         }
+
+        mBtnSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, MoviesGenreActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.putExtra("search_key", mEditTextSearchKey.getText().toString());
+                intent.putExtra("isActivity", true);
+                App.getContext().startActivity(intent);
+            }
+        });
 
     }
 

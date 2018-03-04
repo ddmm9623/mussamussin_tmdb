@@ -14,8 +14,10 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
+import com.tmdb.dante666lcf.tmdb.adapters.MoviesAdapter;
 import com.tmdb.dante666lcf.tmdb.adapters.MoviesGenreAdapter;
 import com.tmdb.dante666lcf.tmdb.models.Genres;
+import com.tmdb.dante666lcf.tmdb.models.Movies;
 import com.tmdb.dante666lcf.tmdb.models.MoviesGenre;
 import com.tmdb.dante666lcf.tmdb.retrofit.APIServices;
 
@@ -37,6 +39,7 @@ public class MoviesGenreActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private LinearLayoutManager layoutManager;
     private BroadcastReceiver createBroadcastReceiverMoviesGenre;
+    private BroadcastReceiver createBroadcastReceiverSearchMovie;
     private Toolbar toolbar;
 
     private boolean loading = true;
@@ -46,6 +49,9 @@ public class MoviesGenreActivity extends AppCompatActivity {
 
     private int genreId;
     private String genreString;
+    private boolean searchAcitivty = false;
+    private String searchKey = "";
+
 
 
     @Override
@@ -56,12 +62,20 @@ public class MoviesGenreActivity extends AppCompatActivity {
         Intent intent = getIntent();
         genreId = intent.getIntExtra("genreId",1);
         genreString = intent.getStringExtra("genreString");
+        // for search activity
+        searchAcitivty = intent.getBooleanExtra("isActivity", false);
+        searchKey = intent.getStringExtra("search_key");
+
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
 
         toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.ic_arrow_back_white_24dp));
-        toolbar.setTitle(genreString);
+        if (searchAcitivty) {
+            toolbar.setTitle(getString(R.string.result));
+        } else {
+            toolbar.setTitle(genreString);
+        }
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -69,12 +83,23 @@ public class MoviesGenreActivity extends AppCompatActivity {
             }
         });
 
-        if (createBroadcastReceiverMoviesGenre == null) {
-            createBroadcastReceiverMoviesGenre = broadcastReceiverMoviesGenre();
-            LocalBroadcastManager.getInstance(App.getContext()).registerReceiver(createBroadcastReceiverMoviesGenre, new IntentFilter(BroadcastIntents.MOVIES_GENRE_REQUEST_OK));
-        }
 
-        APIServices.getGenreMovies(genreId, nextPage);
+
+        if (searchAcitivty) {
+            if (createBroadcastReceiverSearchMovie == null) {
+                createBroadcastReceiverSearchMovie = broadcastReceiverSearchMovie();
+                LocalBroadcastManager.getInstance(App.getContext()).registerReceiver(createBroadcastReceiverSearchMovie, new IntentFilter(BroadcastIntents.SEARCH_MOVIE_REQUEST_OK));
+            }
+
+            APIServices.getSearchMovie(searchKey, nextPage);
+        } else {
+            if (createBroadcastReceiverMoviesGenre == null) {
+                createBroadcastReceiverMoviesGenre = broadcastReceiverMoviesGenre();
+                LocalBroadcastManager.getInstance(App.getContext()).registerReceiver(createBroadcastReceiverMoviesGenre, new IntentFilter(BroadcastIntents.MOVIES_GENRE_REQUEST_OK));
+            }
+
+            APIServices.getGenreMovies(genreId, nextPage);
+        }
 
         Realm genresRealm = Realm.getDefaultInstance();
         RealmResults<Genres> realmGenresResults;
@@ -116,14 +141,29 @@ public class MoviesGenreActivity extends AppCompatActivity {
         };
     }
 
+    private BroadcastReceiver broadcastReceiverSearchMovie() {
+        return new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                updateMoviesGenre();
+            }
+        };
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (createBroadcastReceiverMoviesGenre != null) {
-            LocalBroadcastManager.getInstance(App.getContext()).unregisterReceiver(createBroadcastReceiverMoviesGenre);
-            createBroadcastReceiverMoviesGenre = null;
+        if(searchAcitivty) {
+            if (createBroadcastReceiverSearchMovie != null) {
+                LocalBroadcastManager.getInstance(App.getContext()).unregisterReceiver(createBroadcastReceiverSearchMovie);
+                createBroadcastReceiverSearchMovie = null;
+            }
+        } else {
+            if (createBroadcastReceiverMoviesGenre != null) {
+                LocalBroadcastManager.getInstance(App.getContext()).unregisterReceiver(createBroadcastReceiverMoviesGenre);
+                createBroadcastReceiverMoviesGenre = null;
+            }
         }
-
         Realm realm = Realm.getDefaultInstance();
         final RealmResults<MoviesGenre> results = realm.where(MoviesGenre.class).findAll();
         realm.executeTransaction(new Realm.Transaction() {
@@ -133,7 +173,6 @@ public class MoviesGenreActivity extends AppCompatActivity {
             }
         });
         realm.close();
-
     }
 
     protected void createScrollListener() {
@@ -156,7 +195,12 @@ public class MoviesGenreActivity extends AppCompatActivity {
                     if (!loading && (totalItemCount - visibleItemCount)
                             <= (firstVisibleItem + visibleThreshold)) {
                         nextPage++;
-                        APIServices.getGenreMovies(genreId, nextPage);
+                        if (searchAcitivty) {
+                            APIServices.getSearchMovie(searchKey, nextPage);
+                        } else {
+                            APIServices.getGenreMovies(genreId, nextPage);
+                        }
+
                         loading = true;
                     }
                 }
